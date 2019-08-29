@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content>
+    <meta name="keyword" content>
+    <!--link rel="shortcut icon" href="/img/ironman-draw.png"-->
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [Model] HMM - 王巍 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://IceCreamWW.github.io/article/HMM/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    <!--不蒜子-->
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+    
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header {
+        background-image: url('Demo.png')
+                /*post*/
+                
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                            <a class="tag" href="/tags/#model" title="model">
+                                model</a>
+                            
+                            <a class="tag" href="/tags/#optimization" title="optimization">
+                                optimization</a>
+                            
+                            <a class="tag" href="/tags/#EM" title="EM">
+                                EM</a>
+                            
+                        </div>
+                        <h1>
+                            [Model] HMM
+                        </h1>
+                        <!-- <h2 class="subheading">Hidden Markov Model derivation</h2> -->
+                        <!--文章访问量统计-->
+                        
+                        <span id="busuanzi_container_page_pv">本文已被阅读过<span id="busuanzi_value_page_pv"></span>次</span>
+                        
+                        <!--文章访问量统计--> <span class="meta">
+                            Posted by
+                            王巍 on
+                            2019-07-22
+                        </span>
+                    </div>
+                    
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wang Wei</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+                        <li>
+                            <a href="/archive/" >Archives</a>
+                        </li>
+                    
+                        <li>
+                            <a href="/tags/" >Tags</a>
+                        </li>
+                    
+
+                    <!-- 
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                     -->
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <blockquote>
+<p>本文记录了HMM模型的基本理论及其EM算法的优化</p>
+</blockquote>
+<h2 id="HMM-的组成"><a href="#HMM-的组成" class="headerlink" title="HMM 的组成"></a>HMM 的组成</h2><p><strong> HMM的参数: $ \lambda = (A, B, \pi) $</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>五元组</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$S = {s_1, s_2, \dots, s_N}$</td>
+<td>隐藏状态集合</td>
+</tr>
+<tr>
+<td>$V = {v_1, v_2, \dots, v_m, \dots}$</td>
+<td>观测值集合</td>
+</tr>
+<tr>
+<td>$A = a_{11}, \dots, a_{ij}, \dots, a_{NN}$</td>
+<td>转移概率矩阵, $\sum_{j=1}^N a_{ij} = 1$</td>
+</tr>
+<tr>
+<td>$B = b_i(v_j)$</td>
+<td>发射概率: 隐藏状态 $s_i$ 产生观测值 $v_j$ 的概率</td>
+</tr>
+<tr>
+<td>$\pi = \pi_1, \pi_2, \dots, \pi_n$</td>
+<td>起始概率: 隐藏状态 $s_i$成为第一个隐藏状态的概率，$\sum_{i=1}^N \pi_i = 1$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>其它符号</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$q_{t_1}^{t_2}$</td>
+<td>从时间$t_1$到$t_2$的隐藏状态序列</td>
+</tr>
+<tr>
+<td>$Q = q_1q_2\dots q_T$</td>
+<td>隐藏状态序列, $q_i \in S$, $q_1^T$</td>
+</tr>
+<tr>
+<td>$o_{t_1}^{t_2}$</td>
+<td>从时间$t_1$到$t_2$的观测值序列</td>
+</tr>
+<tr>
+<td>$O = o_1o_2\dots o_T$</td>
+<td>观测值序列, $o_i \in V$, $o_1^T$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="HMM-的基本假设"><a href="#HMM-的基本假设" class="headerlink" title="HMM 的基本假设"></a>HMM 的基本假设</h2><ol>
+<li><p>马尔科夫假设</p>
+<script type="math/tex; mode=display">
+P(q_i \mathrel | q_1\dots q_{i-1}) = P(q_i\mathrel | q_{i-1})</script></li>
+<li><p>观测值独立性假设</p>
+</li>
+</ol>
+<script type="math/tex; mode=display">
+P(o_i \mathrel | q_1\dots q_i\dots q_T, o_1\dots o_i \dots o_T) = P(o_i \mathrel | q_i)</script><hr>
+<h2 id="HMM-似然-Likelihood"><a href="#HMM-似然-Likelihood" class="headerlink" title="HMM - 似然 (Likelihood)"></a>HMM - 似然 (Likelihood)</h2><p>对于HMM $\lambda = (A, B, \pi)$ 和观测序列 $O$, 求观测序列的似然 $P(O \mathrel | \lambda)$。  ( 以下省略 $\lambda$ ) </p>
+<h3 id="前向算法-Forward-Algoithm"><a href="#前向算法-Forward-Algoithm" class="headerlink" title="前向算法 (Forward Algoithm)"></a>前向算法 (Forward Algoithm)</h3><p>令 $ \alpha_t(i) = P(o_1^t, q_t=S_i)$ , 则似然观测概率的似然可以表示为: </p>
+<p>\begin{align}<br>P(O)    &amp;= \sum_{i=1}^N P(o_i^T, q_T=S_i) \\<br>        &amp;= \sum_{i=1}^N \alpha_T(i)<br>\end{align}</p>
+<h4 id="前向递归式"><a href="#前向递归式" class="headerlink" title="前向递归式"></a>前向递归式</h4><p>\begin{align}<br>\alpha_t(i) &amp;=  P(o_1^t, q_t=S_i)\\<br>            &amp;=  \sum_{j=1}^N P(o_1^t, q_{t-1}=S_j, q_t=S_i) \\<br>            &amp;=  \sum_{j=1}^N P(o_1^{t-1}, q_{t-1}=S_j, q_t=S_i) \cdot P(o_t \mathrel | o_1^{t-1}, q_{t-1}=S_j, q_t=S_i) \\<br>            &amp;=  \sum_{j=1}^N P(o_1^{t-1}, q_{t-1}=S_j, q_t=S_i) \cdot P(o_t \mathrel | q_t=S_i) \\<br>            &amp;=  \sum_{j=1}^N P(o_1^{t-1}, q_{t-1}=S_j) \cdot P(q_t=S_i \mathrel | o_1^{t-1}, q_{t-1}=S_j) \cdot P(o_t \mathrel | q_t=S_i) \\<br>            &amp;=  \sum_{j=1}^N P(o_1^{t-1}, q_{t-1}=S_j) \cdot P(q_t=S_i \mathrel | q_{t-1}=S_j) \cdot P(o_t \mathrel | q_t=S_i) \\<br>            &amp;=  \sum_{j=1}^N \alpha_{t-1}(j) \cdot a_{ji} \cdot b_i(o_t)<br>\end{align}</p>
+<p>其中，初值:<br>\begin{align}<br>\alpha_1(i) &amp;= P(o_1, q_1=S_i) \\<br>            &amp;= P(q_1=S_i) \cdot P(o_1 \mathrel | q_1=S_i) \\<br>            &amp;= \pi_i \cdot b_i(o_1)<br>\end{align}</p>
+<hr>
+<h2 id="HMM-解码-Decoding"><a href="#HMM-解码-Decoding" class="headerlink" title="HMM - 解码 (Decoding)"></a>HMM - 解码 (Decoding)</h2><p>对于HMM $\lambda = (A, B, \pi)$ 和观测序列 $O$, 求最可能的状态序列 $Q$:<br>\begin{align}<br>Q   &amp;= \underset{q_1^T}{\mathrm{argmax}} P(Q \mathrel | Q) \\<br>    &amp;= \underset{q_1^T}{\mathrm{argmax}} \frac{P(o_1^T, q_1^T)}{P(o_1^T)} \\<br>    &amp;= \underset{q_1^T}{\mathrm{argmax}} P(o_1^T, q_1^T)<br>\end{align}</p>
+<p>令:</p>
+<script type="math/tex; mode=display">
+\delta_t(i) = \max_{q_1^{t-1}} P(o_1^t, q_1^{t-1}, q_t=S_i)</script><p>则 $Q$ 的最后一个状态为:</p>
+<script type="math/tex; mode=display">
+\begin{align}
+q_T &= \underset{q_T}{\mathrm{argmax}}\ P(o_1^T, q_1^T) \\
+    &= \underset{q_T}{\mathrm{argmax}}\ \max_{q_1^{T-1}} P(o_1^T, q_1^{T-1}, q_T) \\
+    &= \underset{i}{\mathrm{argmax}}\ \max_{q_1^{T-1}} P(o_1^T, q_1^{T-1}, q_T=S_i) \\
+    &= \underset{i}{\mathrm{argmax}}\ \delta_T(i)
+\end{align}\label{eq:viterbi-last-state}\tag{1}</script><h3 id="Viterbi-算法"><a href="#Viterbi-算法" class="headerlink" title="Viterbi 算法"></a>Viterbi 算法</h3><h4 id="递归-Recursion"><a href="#递归-Recursion" class="headerlink" title="递归 (Recursion)"></a>递归 (Recursion)</h4><script type="math/tex; mode=display">
+\begin{align}
+\delta_t(i) &= \max_{q_1^{t-1}} P(o_1^t, q_1^{t-1}, q_t=S_i) \\
+            &= \max_{q_1^{t-1}} P(o_1^{t-1}, q_1^{t-1}, q_t=S_i) \cdot P(o_t \mathrel | o_1^{t-1}, q_1^{t-1}, q_t=S_i) \\
+            &= \max_{q_1^{t-1}} P(o_1^{t-1}, q_1^{t-1}) \cdot P(q_t=S_i \mathrel | o_1^{t-1}, q_1^{t-1}) \cdot P(o_t \mathrel | q_t=S_i) \\
+            &= b_i(o_t) \cdot \max_{q_1^{t-1}} P(o_1^{t-1}, q_1^{t-1}) \cdot P(q_t=S_i \mathrel | q_{t-1}) \\
+            &= b_i(o_t) \cdot \max_{q_1^{t-2}} \max_{j=1}^N P(o_1^{t-1}, q_1^{t-2}, q_{t-1}=S_j) \cdot P(q_t=S_i \mathrel | q_{t-1}=S_j) \\
+            &= b_i(o_t) \cdot \max_{j=1}^N P(q_t=S_i \mathrel | q_{t-1}=S_j) \cdot \max_{q_1^{t-2}} P(o_1^{t-1}, q_1^{t-2}, q_{t-1}=S_j) \\
+            &= b_i(o_t) \max_{j=1}^N a_{ji} \cdot \delta_{t-1}(j)
+\end{align}\label{eq:viterbi-recursion}\tag{2}</script><p>其中，初值:<br>\begin{align}<br>\delta_1(i) &amp;= P(o_1, q_1=S_i) \\<br>            &amp;= \pi_i \cdot b_i(o_1)  \\<br>            &amp;= \alpha_1(i)<br>\end{align}</p>
+<p>此时，将递归式 Eq.(\ref{eq:viterbi-recursion}) 应用到 Eq.(\ref{eq:viterbi-last-state}) 中可以得到最可能路径的最后一个状态。</p>
+<h4 id="回溯-Traceback"><a href="#回溯-Traceback" class="headerlink" title="回溯 (Traceback)"></a>回溯 (Traceback)</h4><p>已知最可能路径中的第 $t+1$ 个状态 $q_{t+1}^*$, 求该路径中的第 $t$ 个状态:</p>
+<p>\begin{align}<br>q_t &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}, q_{t+2}^T} P(q_1^{t-1}, q_{t+2}^T, q_{t+1}^*, q_t=S_i, o_1^T) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}, q_{t+2}^T} P(q_1^{t-1}, q_{t+1}^*, q_t=S_i, o_1^t) \cdot P(o_{t+1}^T, q_{t+2}^T \mathrel | q_1^{t-1}, q_{t+1}^*, q_t=S_i, o_1^t) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}, q_{t+2}^T} P(q_1^{t-1}, q_{t+1}^*, q_t=S_i, o_1^t) \cdot P(o_{t+1}^T, q_{t+2}^T \mathrel | q_{t+1}^*) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}} P(q_1^{t-1}, q_{t+1}^*, q_t=S_i, o_1^t) \cdot \max_{q_{t+2}^T} P(o_{t+1}^T, q_{t+2}^T \mathrel | q_{t+1}^*) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}} P(q_1^{t-1}, q_{t+1}^*, q_t=S_i, o_1^t) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}} P(q_1^{t-1}, q_t=S_i, o_1^t) \cdot P(q_{t+1}^* \mathrel | q_1^{t-1}, q_t=S_i, o_1^t) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \max_{q_1^{t-1}} P(q_1^{t-1}, q_t=S_i, o_1^t) \cdot P(q_{t+1}^* \mathrel | q_t=S_i) \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \delta_t(i) \cdot a_{iq_{t+1}^*}<br>\end{align}</p>
+<hr>
+<h2 id="HMM-后验解码-Posterior-Decoding"><a href="#HMM-后验解码-Posterior-Decoding" class="headerlink" title="HMM - 后验解码 (Posterior Decoding)"></a>HMM - 后验解码 (Posterior Decoding)</h2><p>对于HMM $\lambda = (A, B, \pi)$ 和观测序列 $O$, 求时间$t$处的最可能状态:</p>
+<p>\begin{align}<br>q_t &amp;= \underset{i}{\mathrm{argmax}} P(q_t=S_i \mathrel | O)  \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \frac{P(q_t=S_i, o_1^T)}{P(o_1^T)}  \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \frac{P(q_t=S_i, o_1^T)}{P(o_1^T)}  \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \frac{P(q_t=S_i, o_1^T)}{\sum_{k=1}^N P(q_t=S_k, o_1^T)} \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \frac{P(q_t=S_i, o_1^t) \cdot P(o_{t+1}^T \mathrel | q_t=S_i)}{\sum_{k=1}^N P(q_t=S_k, o_1^T)} \\<br>    &amp;= \underset{i}{\mathrm{argmax}} \frac{\alpha_t(i) \cdot P(o_{t+1}^T \mathrel | q_t=S_i)}{\sum_{k=1}^N P(q_t=S_k, o_1^T)}<br>\end{align}</p>
+<h3 id="后向算法-Backward-Algorithm"><a href="#后向算法-Backward-Algorithm" class="headerlink" title="后向算法 (Backward Algorithm)"></a>后向算法 (Backward Algorithm)</h3><p>令:</p>
+<script type="math/tex; mode=display">
+\beta_t(i) = P(o_{t+1}^T \mathrel | q_t=S_i)</script><p>则 $t$ 时间处隐藏状态 $q_t$ 为 $S_i$ 的后验概率可表示为:<br>\begin{align}<br>P(q_t=S_i \mathrel |o_1^T)  &amp;= \frac{\alpha_t(i) \cdot P(o_{t+1}^T \mathrel | q_t=S_i, o_1^t)}{\sum_{k=1}^N P(q_t=S_k, o_1^T)}  \\<br>                            &amp;= \frac{\alpha_t(i) \cdot P(o_{t+1}^T \mathrel | q_t=S_i)}{\sum_{k=1}^N P(q_t=S_k, o_1^T)} \\<br>                            &amp;= \frac{\alpha_t(i) \cdot \beta_t(i)}{\sum_{k=1}^N \alpha_t(k)\cdot \beta_t(k)} \\<br>\end{align}</p>
+<h4 id="后向递归式"><a href="#后向递归式" class="headerlink" title="后向递归式"></a>后向递归式</h4><p>\begin{align}<br>\beta_t(i) &amp;= P(o_{t+1}^T \mathrel | q_t=S_i) \\<br>           &amp;= \sum_{j=1}^N \frac{P(o_{t+1}^T, q_t=S_i, q_{t+1}=S_j)}{P(q_t=S_i)} \\<br>           &amp;= \sum_{j=1}^N \frac{P(o_{t+1}^T \mathrel |q_t=S_i, q_{t+1}=S_j) \cdot P(q_t=S_i, q_{t+1}=S_j)}{P(q_t=S_i)} \\<br>           &amp;= \sum_{j=1}^N P(o_{t+1}^T \mathrel | q_{t+1}=S_j) \cdot P(q_{t+1}=S_j \mathrel | q_{t}=S_i) \\<br>           &amp;= \sum_{j=1}^N P(o_{t+2}^T \mathrel | q_{t+1}=S_j) \cdot P(o_{t+1} \mathrel | o_{t+2}^T, q_{t+1}=S_j) \cdot P(q_{t+1}=S_j \mathrel | q_{t}=S_i) \\<br>           &amp;= \sum_{j=1}^N P(o_{t+2}^T \mathrel | q_{t+1}=S_j) \cdot P(o_{t+1} \mathrel | q_{t+1}=S_j) \cdot P(q_{t+1}=S_j \mathrel | q_{t}=S_i) \\<br>           &amp;= b_j(o_{t+1}) \cdot \sum_{j=1}^N P(o_{t+2}^T \mathrel | q_{t+1}=S_j) \cdot a_{ij} \\<br>           &amp;= b_j(o_{t+1}) \cdot \sum_{j=1}^N \beta_{t+1}(j) \cdot a_{ij}<br>\end{align}</p>
+<p>为了使 $\beta_{T-1}(i) = P(o_T \mathrel | q_{T-1}=S_i)$ 计算正确, 取 $\beta$ 的初值为:</p>
+<script type="math/tex; mode=display">
+\beta_T(i) = 1</script><hr>
+<h2 id="HMM-参数训练-Parameter-Learning"><a href="#HMM-参数训练-Parameter-Learning" class="headerlink" title="HMM - 参数训练 (Parameter Learning)"></a>HMM - 参数训练 (Parameter Learning)</h2><p>对于观测序列 $O$, 求HMM参数 $\lambda=(A, B, \pi)$ 的最大似然估计:</p>
+<h3 id="符号定义及其计算"><a href="#符号定义及其计算" class="headerlink" title="符号定义及其计算"></a>符号定义及其计算</h3><h4 id="I-x"><a href="#I-x" class="headerlink" title="$I(x)$"></a>$I(x)$</h4><script type="math/tex; mode=display">
+I(x)=
+\begin{cases}
+0& x \neq 1\\
+1& x=1
+\end{cases}</script><hr>
+<h4 id="gamma-t-i"><a href="#gamma-t-i" class="headerlink" title="$\gamma_t(i)$"></a>$\gamma_t(i)$</h4><p>\begin{align}<br>\gamma_t(i) &amp;= P(q_t = S_i \mathrel | O, \hat{\lambda}) \\<br>            &amp;= \frac{P(q_t = S_i, O \mathrel | \hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>            &amp;= \frac{P(q_t = S_i, o_1^t, o_{t+1}^T \mathrel | \hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>            &amp;= \frac{P(q_t = S_i, o_1^t \mathrel | \hat{\lambda}) \cdot P(o_{t+1}^T \mathrel | o_1^t, q_t=S_i, \hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>            &amp;= \frac{P(q_t = S_i, o_1^t \mathrel | \hat{\lambda}) \cdot P(o_{t+1}^T \mathrel | q_t=S_i, \hat{\lambda})}{\sum_{j=1}^N P(q_t=S_j, O \mathrel | \hat{\lambda})} \\<br>            &amp;= \frac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N \alpha_t(j)\beta_t(j)} \\<br>\end{align}</p>
+<hr>
+<h4 id="xi-t-i-j"><a href="#xi-t-i-j" class="headerlink" title="$\xi_t(i, j) $"></a>$\xi_t(i, j) $</h4><p>\begin{align}<br>\xi_t(i,j) &amp;= P(q_{t-1}=i, q_t=j \mathrel | O, \hat{\lambda}) \\<br>           &amp;= \frac{P(q_{t-1}=i, q_t=j, O \mathrel | \hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{P(q_{t-1}=i, q_t=j, o_1^{t-1}, o_t, o_{t+1}^T \mathrel | \hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{P(q_{t-1}=i, o_1^{t-1} \mathrel | \hat{\lambda}) \cdot P(q_t=j, o_t, o_{t+1}^T \mathrel | q_{t-1}=i, o_1^{t-1} ,\hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{\alpha_{t-1}(i) \cdot P(q_t=j \mathrel | q_{t-1}=i, o_1^{t-1}, \hat{\lambda}) \cdot P(o_t, o_{t+1}^T \mathrel | q_{t-1}=i, q_t=j, o_1^{t-1} ,\hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{\alpha_{t-1}(i) \cdot P(q_t=j \mathrel | q_{t-1}=i \hat{\lambda}) \cdot P(o_t, o_{t+1}^T \mathrel | q_t=j ,\hat{\lambda})}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{\alpha_{t-1}(i) \cdot a_{ij} \cdot P(o_t \mathrel | q_t=j ,\hat{\lambda}) \cdot P(o_{t+1}^T \mathrel | q_t=j, o_t, \lambda)}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{\alpha_{t-1}(i) \cdot a_{ij} \cdot b_j(o_t) \cdot \beta_t(j)}{P(O \mathrel | \hat{\lambda})} \\<br>           &amp;= \frac{\alpha_{t-1}(i) \cdot a_{ij} \cdot b_j(o_t) \cdot \beta_t(j)}{\sum_{i=1}^N \sum_{j=1}^N \alpha_{t-1}(i) \cdot a_{ij} \cdot b_j(o_t) \cdot \beta_t(j)}<br>\end{align}</p>
+<hr>
+<h3 id="EM-算法"><a href="#EM-算法" class="headerlink" title="EM 算法"></a><a href="/article/EM">EM 算法</a></h3><h4 id="E步"><a href="#E步" class="headerlink" title="E步"></a>E步</h4><p>EM算法的通用E步期望公式:</p>
+<p>\begin{align}<br>H(\theta, P(Z\mathrel | Y, \hat{\theta})) &amp;= E_{Z\sim P(Z\mathrel | Y, \hat{\theta})} [\log P(Y,Z \mathrel | \theta)] \\<br>                        &amp;= \sum_Z P(Z\mathrel | Y, \hat{\theta}) \cdot \log P(Y,Z \mathrel | \theta)<br>\end{align}</p>
+<p>代入HMM的参数, 以一个样本为例:</p>
+<p>\begin{align}<br>H(\lambda, P(Q\mathrel | O, \hat{\lambda})) &amp;= \sum_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \log P(O,Q \mathrel | \lambda) \\<br>                                            &amp;= \sum_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \log (P(q_1)\cdot P(o_1 \mathrel | q_1)\prod_{t=2}^T P(q_{t} \mathrel | q_{t-1}) \cdot P(o_t \mathrel | q_t)) \\<br>                                            &amp;= \sum_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \log (\pi_{q_1}\cdot b_{q_1}(o_1)\prod_{t=2}^T a_{q_{t-1}q_{t}} \cdot b_{q_t}(o_t)) \\<br>                                            &amp;= (\sum_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \log (\pi_{q_1})) + (\sum_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \sum_{t=1}^T \log b_{q_t}(o_t)) + (\sum_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \sum_{t=2}^T \log a_{q_{t-1}q_{t}})<br>\end{align}</p>
+<hr>
+<h4 id="M步"><a href="#M步" class="headerlink" title="M步"></a>M步</h4><h5 id="pi"><a href="#pi" class="headerlink" title="$\pi$"></a>$\pi$</h5><p>$\pi$ 满足限制条件 $\sum_{i=1}^N \pi_i = 1$, 应用拉尔朗日乘数法，求导式变为:</p>
+<script type="math/tex; mode=display">
+G(\theta) = J(\theta) + \Lambda(1 - \sum_{i=1}^N \pi_i)</script><p>对 $\pi_i$ 求导:<br>\begin{align}<br>\frac{\partial G(\theta)}{\partial \pi_i} &amp;= \frac{\partial [(\sum\limits_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \log (\pi_{q_1})) + \Lambda(1 - \sum_{i=1}^N \pi_i)]}{\partial \pi_i} \\<br>                                          &amp;= \frac{\partial [\sum\limits_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \log (\pi_{q_1})]}{\partial \pi_i} - \Lambda \\<br>                                          &amp;= \frac{\partial [\sum\limits_{q_2^T} \sum\limits_{i=1}^N P(q_2^T, q_1=S_i \mathrel | O, \hat{\lambda}) \cdot \log (\pi_i)]}{\partial \pi_i} - \Lambda \\<br>                                          &amp;= \frac{\partial [\sum\limits_{i=1}^N P(q_1=S_i \mathrel | O, \hat{\lambda}) \cdot \log (\pi_i)]}{\partial \pi_i} - \Lambda \\<br>                                          &amp;= \frac{\sum\limits_{i=1}^N P(q_1=S_i \mathrel | O, \hat{\lambda})}{\pi_i} - \Lambda \\<br>                                          &amp;= 0<br>\end{align}</p>
+<p>即:</p>
+<script type="math/tex; mode=display">
+\pi_i = \frac{\sum\limits_{i=1}^N P(q_1=S_i \mathrel | O, \hat{\lambda})}{\Lambda}</script><p>又:<br>\begin{align}<br>\because\quad &amp; \sum_{i=1}^N \pi_i = 1 \\<br>\therefore\quad &amp; \frac{\sum\limits_{i=1}^N P(q_1=S_i \mathrel | O, \hat{\lambda})}{\Lambda} = 1 \\<br>&amp; \Lambda = 1<br>\end{align}</p>
+<p>故 $\pi_i$的更新公式为:<br>\begin{align}<br>\pi_i &amp;= \sum\limits_{i=1}^N P(q_1=S_i \mathrel | O, \hat{\lambda})<br>\end{align}</p>
+<hr>
+<h5 id="A"><a href="#A" class="headerlink" title="$A$"></a>$A$</h5><p>$a_{ij}$ 满足限制条件 $\sum_{j=1}^N a_{ij} = 1$, 应用拉尔朗日乘数法，求导式变为:</p>
+<script type="math/tex; mode=display">
+G(\theta) = J(\theta) + \Lambda(1 - \sum_{j=1}^N a_{ij})</script><p>对 $a_{ij}$ 求导:<br>\begin{align}<br>\frac{\partial G(\theta)}{\partial a_{ij}} &amp;= \frac{\partial [(\sum\limits_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \sum\limits_{t=2}^T \log a_{q_{t-1}q_{t}}) + \Lambda(1 - \sum\limits_{j=1}^N a_{ij})]}{\partial a_{ij}} \\<br>                                           &amp;= \frac{\partial  (\sum\limits_{q_1^T} P(q_1^T\mathrel | O, \hat{\lambda}) \cdot \sum\limits_{t=2}^T \log a_{q_{t-1}q_{t}})}{\partial a_{ij}}  - \Lambda \\<br>                                           &amp;= \frac{\partial  (\sum\limits_{t=2}^T \sum\limits_{q_1^T} P(q_1^T\mathrel | O, \hat{\lambda}) \cdot  \log a_{q_{t-1}q_{t}})}{\partial a_{ij}}  - \Lambda \\<br>                                           &amp;= \frac{\partial  (\sum\limits_{t=2}^T \sum\limits_{q_1^{t-2}, q_{t+1}^T} \sum\limits_{q_{t-1}, q_t} P(q_1^{t-2}, q_{t-1}, q_t, q_{t+1}^T \mathrel | O, \hat{\lambda}) \cdot  \log a_{q_{t-1}q_{t}})}{\partial a_{ij}}  - \Lambda \\<br>                                           &amp;= \frac{\partial  (\sum\limits_{t=2}^T \sum\limits_{q_1^{t-2}, q_{t+1}^T} \sum\limits_{i=1}^N \sum\limits_{j=1}^N P(q_1^{t-2}, q_{t-1}=S_i, q_t=S_j, q_{t+1}^T \mathrel | O, \hat{\lambda}) \cdot  \log a_{ij})}{\partial a_{ij}}  - \Lambda \\<br>                                           &amp;= \frac{\partial  (\sum\limits_{t=2}^T \sum\limits_{i=1}^N \sum\limits_{j=1}^N P(q_{t-1}=S_i, q_t=S_j \mathrel | O, \hat{\lambda}) \cdot  \log a_{ij})}{\partial a_{ij}}  - \Lambda \\<br>                                           &amp;= \frac{\sum\limits_{t=2}^T P(q_{t-1}=S_i, q_t=S_j \mathrel | O, \hat{\lambda})}{a_{ij}}  - \Lambda \\<br>                                           &amp;= 0<br>\end{align}</p>
+<p>即:</p>
+<script type="math/tex; mode=display">
+a_{ij} = \frac{\sum\limits_{t=2}^T P(q_{t-1}=S_i, q_t=S_j \mathrel | O, \hat{\lambda})}{\Lambda}</script><p>又:<br>\begin{align}<br>\because\quad &amp; \sum_{j=1}^N a_{ij} = 1 \\<br>\therefore\quad &amp; \frac{\sum\limits_{t=2}^T \sum\limits_{j=1}^N P(q_{t-1}=S_i, q_t=S_j \mathrel | O, \hat{\lambda})}{\Lambda} = 1 \\<br>&amp; \Lambda = \sum\limits_{t=2}^T P(q_{t-1}=S_i \mathrel | O, \hat{\lambda}) \\<br>\end{align}</p>
+<p>故 $a_{ij}$的更新公式为:<br>\begin{align}<br>a_{ij} &amp;= \frac{\sum\limits_{t=2}^T P(q_{t-1}=S_i, q_t=S_j \mathrel | O, \hat{\lambda})}{\sum\limits_{t=2}^T P(q_{t-1}=S_i \mathrel | O, \hat{\lambda})} \\<br>       &amp;= \frac{\sum\limits_{t=2}^T \xi_t(i, j)}{\sum\limits_{t=2}^T \gamma_{t-1}(i)} \\<br>\end{align}</p>
+<hr>
+<h5 id="B"><a href="#B" class="headerlink" title="$B$"></a>$B$</h5><p>$b_i(v_k)$ 满足限制条件 $\sum_{k=1}^N b_i(v_k) = 1$, 应用拉尔朗日乘数法，求导式变为:</p>
+<script type="math/tex; mode=display">
+G(\theta) = J(\theta) + \Lambda(1 - \sum_{k=1}^M b_i(v_k) = 1)</script><p>对 $b_i(v_k)$ 求导:<br>\begin{align}<br>\frac{\partial G(\theta)}{\partial \pi_i} &amp;= \frac{\partial (\sum\limits_Q P(Q\mathrel | O, \hat{\lambda}) \cdot \sum\limits_{t=1}^T \log b_{q_t}(o_t)) + \Lambda(1 - \sum\limits_{k=1}^M b_i(v_k) = 1)}{\partial b_i(v_k)} \\<br>                                          &amp;= \frac{\partial (\sum\limits_{q_1^T} P(q_1^T\mathrel | O, \hat{\lambda}) \cdot \sum\limits_{t=1}^T \log b_{q_t}(o_t))}{\partial b_i(v_k)} - \Lambda\\<br>                                          &amp;= \frac{\partial (\sum\limits_{t=1}^T \sum\limits_{q_1^T} P(q_1^T \mathrel | O, \hat{\lambda}) \cdot \log b_{q_t}(o_t))}{\partial b_i(v_k)} - \Lambda\\<br>                                          &amp;= \frac{\partial (\sum\limits_{t=1}^T \sum\limits_{q_1^{t-1}, q_{t+1}^T} \sum\limits_{i=1}^N P(q_1^{t-1}, q_t=S_i, q_{t+1}^T \mathrel | O, \hat{\lambda}) \cdot \log b_i(o_t))}{\partial b_i(v_k)} - \Lambda\\<br>                                          &amp;= \frac{\partial (\sum\limits_{t=1}^T \sum\limits_{i=1}^N P(q_t=S_i \mathrel | O, \hat{\lambda}) \cdot \log b_i(o_t))}{\partial b_i(v_k)} - \Lambda\\<br>                                          &amp;= \frac{\sum\limits_{t=1}^T P(q_t=S_i \mathrel | O, \hat{\lambda}) \cdot I(o_t=v_k)}{b_i(v_k)} - \Lambda\\<br>                                          &amp;= 0<br>\end{align}</p>
+<p>即:</p>
+<script type="math/tex; mode=display">
+b_i(v_k) = \frac{\sum\limits_{t=1}^T P(q_t=S_i \mathrel | O, \hat{\lambda}) \cdot I(o_t=v_k)}{\Lambda}</script><p>又:<br>\begin{align}<br>\because\quad &amp; \sum_{k=1}^M b_i(v_k) = 1 \\<br>\therefore\quad &amp; \frac{\sum\limits_{t=1}^T \sum\limits_{k=1}^M P(q_t=S_i \mathrel | O, \hat{\lambda}) \cdot I(o_t=v_k)}{\Lambda} = 1 \\<br>&amp; \Lambda = \sum\limits_{t=1}^T P(q_t=S_i \mathrel | O, \hat{\lambda})<br>\end{align}</p>
+<p>故 $\pi_i$的更新公式为:<br>\begin{align}<br>b_i(v_k) &amp;= \frac{\sum\limits_{t=1}^T P(q_t=S_i \mathrel | O, \hat{\lambda}) \cdot I(o_t=v_k)}{\sum\limits_{t=1}^T P(q_t=S_i \mathrel | O, \hat{\lambda})} \\<br>         &amp;= \frac{\sum\limits_{t=1}^T \gamma_t(i) \cdot I(o_t=v_k)}{\sum\limits_{t=1}^T \gamma_t(i)} \\<br>\end{align}</p>
+<hr>
+<h4 id="参数更新汇总"><a href="#参数更新汇总" class="headerlink" title="参数更新汇总"></a>参数更新汇总</h4><script type="math/tex; mode=display">
+\pi_i = \sum\limits_{i=1}^N P(q_1=S_i \mathrel | O, \hat{\lambda})</script><script type="math/tex; mode=display">
+a_{ij} = \frac{\sum\limits_{t=2}^T \xi_t(i, j)}{\sum\limits_{t=2}^T \gamma_{t-1}(i)}</script><script type="math/tex; mode=display">
+b_i(v_k) = \frac{\sum\limits_{t=1}^T \gamma_t(i) \cdot I(o_t=v_k)}{\sum\limits_{t=1}^T \gamma_t(i)}</script><hr>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><ul>
+<li><a href="./HMM-rescale.pdf">HMM实际应用: 概率对数缩放</a></li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/deeplearning/CTC/" data-toggle="tooltip" data-placement="top" title="[Loss] CTC">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/GMM/" data-toggle="tooltip" data-placement="top" title="[Model] GMM">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!-- pseudocode -->
+                <link rel="stylesheet" href="/css/pseudocode.min.css">
+                <style type=text/css>
+                .algorithm {
+                    display: none;
+                }
+                </style>
+                <!-- katex -->
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-beta/katex.min.css" integrity="sha384-L/SNYu0HM7XECWBeshTGLluQO9uVI1tvkCtunuoUbCHHoTH76cDyXty69Bb9I0qZ" crossorigin="anonymous">
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HMM-的组成"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">HMM 的组成</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HMM-的基本假设"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">HMM 的基本假设</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HMM-似然-Likelihood"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">HMM - 似然 (Likelihood)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#前向算法-Forward-Algoithm"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">前向算法 (Forward Algoithm)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#前向递归式"><span class="toc-nav-number">3.1.1.</span> <span class="toc-nav-text">前向递归式</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HMM-解码-Decoding"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">HMM - 解码 (Decoding)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Viterbi-算法"><span class="toc-nav-number">4.1.</span> <span class="toc-nav-text">Viterbi 算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#递归-Recursion"><span class="toc-nav-number">4.1.1.</span> <span class="toc-nav-text">递归 (Recursion)</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#回溯-Traceback"><span class="toc-nav-number">4.1.2.</span> <span class="toc-nav-text">回溯 (Traceback)</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HMM-后验解码-Posterior-Decoding"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">HMM - 后验解码 (Posterior Decoding)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#后向算法-Backward-Algorithm"><span class="toc-nav-number">5.1.</span> <span class="toc-nav-text">后向算法 (Backward Algorithm)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#后向递归式"><span class="toc-nav-number">5.1.1.</span> <span class="toc-nav-text">后向递归式</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#HMM-参数训练-Parameter-Learning"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">HMM - 参数训练 (Parameter Learning)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#符号定义及其计算"><span class="toc-nav-number">6.1.</span> <span class="toc-nav-text">符号定义及其计算</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#I-x"><span class="toc-nav-number">6.1.1.</span> <span class="toc-nav-text">$I(x)$</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#gamma-t-i"><span class="toc-nav-number">6.1.2.</span> <span class="toc-nav-text">$\gamma_t(i)$</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#xi-t-i-j"><span class="toc-nav-number">6.1.3.</span> <span class="toc-nav-text">$\xi_t(i, j) $</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#EM-算法"><span class="toc-nav-number">6.2.</span> <span class="toc-nav-text">EM 算法</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#E步"><span class="toc-nav-number">6.2.1.</span> <span class="toc-nav-text">E步</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#M步"><span class="toc-nav-number">6.2.2.</span> <span class="toc-nav-text">M步</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#pi"><span class="toc-nav-number">6.2.2.1.</span> <span class="toc-nav-text">$\pi$</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#A"><span class="toc-nav-number">6.2.2.2.</span> <span class="toc-nav-text">$A$</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#B"><span class="toc-nav-number">6.2.2.3.</span> <span class="toc-nav-text">$B$</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#参数更新汇总"><span class="toc-nav-number">6.2.3.</span> <span class="toc-nav-text">参数更新汇总</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#相关链接"><span class="toc-nav-number">7.</span> <span class="toc-nav-text">相关链接</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#model" title="model">model</a>
+                        
+                          <a class="tag" href="/tags/#optimization" title="optimization">optimization</a>
+                        
+                          <a class="tag" href="/tags/#EM" title="EM">EM</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://www.chenzhengyang.cn/" target="_blank">SJTU 陈正阳</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+<!-- 复制添加版权申明-->
+<script>
+    /**/
+    function setClipboardText(event){
+        event.preventDefault();//阻止元素发生默认的行为（例如，当点击提交按钮时阻止对表单的提交）。
+        var node = document.createElement('div');
+        //对documentfragment不熟，不知道怎么获取里面的内容，用了一个比较笨的方式
+        node.appendChild(window.getSelection().getRangeAt(0).cloneContents());
+        //getRangeAt(0)返回对基于零的数字索引与传递参数匹配的选择对象中的范围的引用。对于连续选择，参数应为零。
+        var htmlData = '<div>'
+            + node.innerHTML
+            + '<br /><br />著作权归作者所有。<br />'
+            + '商业转载请联系作者获得授权，非商业转载请注明出处。<br />'
+            + '作者：liaocan <br />链接：'
+            + location.href
+            + '<br />来源：liaocan.top<br /><br />'
+            + '</div>';
+        var textData = window.getSelection().getRangeAt(0)
+            + '\n\n著作权归作者所有。\n'
+            + '商业转载请联系作者获得授权，非商业转载请注明出处。\n'
+            + '作者：liaocan\n'
+            + '链接：'
+            + location.href
+            + '来源：liaocan.top\n\n';
+        if(event.clipboardData){
+            event.clipboardData.setData("text/html", htmlData);
+            //setData(剪贴板格式, 数据) 给剪贴板赋予指定格式的数据。返回 true 表示操作成功。
+            event.clipboardData.setData("text/plain",textData);
+        }
+        else if(window.clipboardData){ //window.clipboardData的作用是在页面上将需要的东西复制到剪贴板上，提供了对于预定义的剪贴板格式的访问，以便在编辑操作中使用。
+            return window.clipboardData.setData("text", textData);
+        }
+    };
+ 
+    document.addEventListener('copy',function(e){
+        setClipboardText(e);
+    });
+</script>
+
+
+<!-- chrome Firefox 中文锚点定位失效-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<!-- smooth scroll behavior polyfill  -->
+<script type="text/javascript" src="/js/smoothscroll.js"></script>
+<!-- katex -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-beta/katex.min.js" integrity="sha384-ad+n9lzhJjYgO67lARKETJH6WuQVDDlRfj81AJJSswMyMkXTD49wBj5EP004WOY6" crossorigin="anonymous"></script>
+
+<!-- pseudocode -->
+<script src="/js/pseudocode.min.js"></script>
+
+<script>
+        $('#toc').on('click','a',function(a){
+            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
+            // console.log(window.navigator.userAgent,isChrome)
+                // if(isChrome) {
+                    // console.log(a.currentTarget.outerHTML);
+                    // console.log($(a.currentTarget).attr("href"));
+                    //跳转到指定锚点
+                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
+                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
+                // }
+        })  
+        $(function() {
+            $('pre.algorithm').each(function() {
+                $(this).wrap("<div></div>")
+                var code = $(this).text();
+                var parentEl = $(this).parent()[0];
+                var options = {
+                    lineNumber: true
+                };
+                pseudocode.render(code, parentEl, options);
+            });
+        });
+</script>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/IceCreamWW">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 王巍 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://IceCreamWW.github.io">王巍</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                    <br />
+                    <!--总访问量统计-->
+                    
+                        <span id="busuanzi_container_site_pv" style="margin-left: 3px;">
+                            总访问量<span id="busuanzi_value_site_pv"></span>次
+                        </span>
+                    
+                    <!--总访问量统计-->
+
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://IceCreamWW.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+    <!--单击显示文字-->
+    <script type="text/javascript" src="/js/click_show_text.js"></script>
+<!-- Image to hack wechat -->
+<!-- <img src="http://IceCreamWW.github.io/img/icon_wechat.png" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+</body>
+
+</html>
