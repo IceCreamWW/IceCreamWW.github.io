@@ -1,0 +1,76 @@
+<hr>
+<p>title: “lecture 1”<br>catalog: true<br>toc_nav_num: true<br>date: 2019-09-19 11:07:56<br>header-img: “../Demo.png”<br>mathjax: true<br>hide: true</p>
+<hr>
+<h2 id="矩阵运算"><a href="#矩阵运算" class="headerlink" title="矩阵运算"></a>矩阵运算</h2><ul>
+<li>矩阵乘法<ul>
+<li>有：结合律，分配律</li>
+<li>无：消去律，交换律</li>
+</ul>
+</li>
+<li>矩阵加法<ul>
+<li>有：消去律，交换律，结合律</li>
+</ul>
+</li>
+</ul>
+<h3 id="多项式"><a href="#多项式" class="headerlink" title="多项式"></a>多项式</h3><p>$A \in \mathbb{R}^{n \times n}$ ，令:</p>
+<script type="math/tex; mode=display">
+\begin{align}
+f(x) &= a_0 + a_1x + a_2x^2 + \dots + a_sx^s \\
+g(x) &= a_0 + a_1x + a_2x^2 + \dots + a_lx^l
+\end{align}</script><p>则 $f(A)=a_0E + a_1A + \dots + a_sA^s$ 称为 $A$ 的一个多项式:</p>
+<script type="math/tex; mode=display">
+\begin{align}
+& \because A^iA^j = A^jA^i \\
+& \therefore f(A)g(A) = g(A)f(A)
+\end{align}</script><h3 id="迹"><a href="#迹" class="headerlink" title="迹"></a>迹</h3><ul>
+<li>$tr(A) = \sum_{i=1}^n \lambda_i(A)$</li>
+<li>$tr(AB) = tr(BA)$</li>
+<li>$tr(A^{-1}) = tr(A)$</li>
+<li>$tr(AA^\ast) = \sum_{i,j=1}^n \vert a_{ij} \vert^2$<br>$tr(AA^\ast) = 0 \Leftrightarrow A=0$  </li>
+</ul>
+<hr>
+<h3 id="秩"><a href="#秩" class="headerlink" title="秩"></a>秩</h3><p><strong>$A \in \mathbb{R}^{m \times n}$</strong></p>
+<ul>
+<li>$r(A) = 0 \Leftrightarrow A = 0$</li>
+<li>$r(A) = r \Leftrightarrow r$ 阶子式至少有一个不为0，大于$r$阶子式全为0 </li>
+<li>$r(A) = m$: 行满秩; $r(A) = n$: 列满秩</li>
+<li>$r(A) + r(B) \le r(A) + r(B)$</li>
+<li>$r(A) + r(C) - n \le r(AC) \le min\{r(A), r(C)\}$ (Sylvester unequality)</li>
+<li>对于可逆的方阵 $P, Q$<br>$r(A) = r(PA) = r(AQ) = r(PAQ)$<br>(初等变换不改变矩阵的秩)</li>
+</ul>
+<p>设$A \in \mathbb{R}^{m \times n}$, 有:</p>
+<script type="math/tex; mode=display">
+\begin{align}
+& r(A) = 1  \\
+\Leftrightarrow \quad & \exists \alpha \in \mathbb{R}^m, \beta \in \mathbb{R}^n  \\
+& s.t. A = \alpha\beta^T 
+\end{align}</script><p>因此有秩1方阵的高次幂计算方法:</p>
+<script type="math/tex; mode=display">
+A^{m}=\left(\alpha \beta^{T}\right)^{m}=\left(\beta^{T} \alpha\right)^{m-1} \alpha \beta^{T}=\left(\beta^{T} \alpha\right)^{m-1} A</script><p>$r(A) = 1 \Leftrightarrow \exists \alpha \in \mathbb{R}^m, \beta \in \mathbb{R}^n, s.t. A = \alpha\beta^T$ </p>
+<hr>
+<p><strong>$ A \in \mathbb{R}^{n \times n}$</strong></p>
+<ul>
+<li>$r(A) = n$: 满秩，非奇异，非退化</li>
+<li>$r(A) &lt; n$: 降秩，奇异，退化</li>
+</ul>
+<h3 id="代数余子式"><a href="#代数余子式" class="headerlink" title="代数余子式"></a>代数余子式</h3><p>设 $A \in \mathbb{R}^{n \times n}$, 去掉第 $i$ 行第 $j$ 列后所剩余的 $n − 1$ 阶方阵的行列式称为 $a_{ij}$ 的余子式 , 记为 $M_{ij}$ . 称 $A_{ij} = (−1)^{i+j}M_{ij}$ 为 $a_{ij}$ 的代数余子式 .<br>A的伴随矩阵 $\operatorname{adj} A$ 定义为:</p>
+<script type="math/tex; mode=display">
+\operatorname{adj} A=\left(\begin{array}{cccc}{A_{11}} & {A_{21}} & {\cdots} & {A_{n 1}} \\ {A_{12}} & {A_{22}} & {\cdots} & {A_{n 2}} \\ {\cdots} & {\cdots} & {\cdots} & {\cdots} \\ {A_{1 n}} & {A_{2 n}} & {\cdots} & {A_{n n}}\end{array}\right)</script><ul>
+<li>$A(\operatorname{adj}A) = (\operatorname{adj}A)A = \vert A \vert E$</li>
+<li>若 $\vert A \vert \ne 0$, 则: $A\frac{\operatorname{adj}A}{\vert A \vert} = \frac{\operatorname{adj}A}{\vert A \vert}A = E$<br>即: A^{-1} = \frac{\operatorname{adj}A}{\vert A \vert}</li>
+</ul>
+<h3 id="分块矩阵"><a href="#分块矩阵" class="headerlink" title="分块矩阵"></a>分块矩阵</h3><p>矩阵的直和:</p>
+<script type="math/tex; mode=display">
+\left(\begin{array}{ccc}{A_{1}} & {}  & {} \\ {} & {\ddots} & {} \\ {} & {} & {A_{s}}\end{array}\right)=A_{1} \oplus \cdots \oplus A_{s}</script><hr>
+<h2 id="矩阵与向量乘法的意义"><a href="#矩阵与向量乘法的意义" class="headerlink" title="矩阵与向量乘法的意义"></a>矩阵与向量乘法的意义</h2><p>$A^i$ 矩阵 $A$ 的第 $i$ 行<br>$A_j$ 矩阵 $A$ 的第 $j$ 列</p>
+<h3 id="右乘列向量"><a href="#右乘列向量" class="headerlink" title="右乘列向量"></a>右乘列向量</h3><script type="math/tex; mode=display">
+\begin{align}
+A\left(\begin{array}{c}{x_{1}} \\ {x_{2}} \\ {\vdots} \\ {x_{n}}\end{array}\right) &= \left(\begin{array}{cccc}{a_{11}} & {a_{12}} & {\cdots} & {a_{1 n}} \\ {a_{21}} & {a_{22}} & {\cdots} & {a_{2 n}} \\ {\cdots} & {\cdots} & {\cdots} & {\cdots} \\ {a_{m 1}} & {a_{m 2}} & {\cdots} & {a_{m n}}\end{array}\right)\left(\begin{array}{c}{x_{1}} \\ {x_{2}} \\ {\vdots} \\ {x_{n}}\end{array}\right) \\
+&= \left(\begin{array}{c}{a_{11} x_{1}+a_{12} x_{2}+\cdots+a_{1 n} x_{n}} \\ {a_{21} x_{1}+a_{12} x_{2}+\cdots+a_{2 n} x_{n}} \\ {\vdots} \\ {a_{m 1} x_{1}+a_{m 2} x_{2}+\cdots+a_{m n} x_{n}}\end{array}\right) \\
+&= x_{1}\left(\begin{array}{c}{a_{11}} \\ {a_{21}} \\ {\vdots} \\ {a_{m 1}}\end{array}\right)+x_{2}\left(\begin{array}{c}{a_{12}} \\ {a_{22}} \\ {\vdots} \\ {a_{m 2}}\end{array}\right)+\cdots+x_{n}\left(\begin{array}{c}{a_{1 n}} \\ {a_{2 n}} \\ {\vdots} \\ {a_{m n}}\end{array}\right)  \\
+&= x_1A_1 + x_2A_2 + \cdots + x_nA_n
+\end{align}</script><p><strong>矩阵 $A$ 右乘列向量 $x$ 是对 $A$ 的列向量的线性组合，组合系数为 $x$ 的对应元素。</strong></p>
+<p>特别地, 对于第 $j$ 个标准单位列向量 $e_j$:</p>
+<script type="math/tex; mode=display">
+Ae_j = A_j, j=1,2,\dots,n</script><h3 id="左乘行向量"><a href="#左乘行向量" class="headerlink" title="左乘行向量"></a>左乘行向量</h3><script type="math/tex; mode=display">
+\left(y_{1}, y_{2}, \ldots, y_{m}\right)\left(\begin{array}{cccc}{a_{11}} & {a_{12}} & {\cdots} & {a_{1 n}} \\ {a_{21}} & {a_{22}} & {\cdots} & {a_{2 n}} \\ {\cdots} & {\cdots} & {\cdots} & {\cdots} \\ {a_{m 1}} & {a_{m 2}} & {\cdots} & {a_{m n}}\end{array}\right)=y_{1} A^{1}+y_{2} A^{2}+\cdots+y_{m} A^{m}</script><p><strong>矩阵 $A$ 左乘行向量 $y^T$ 是对 $A$ 的行向量的线性组合，组合系数为 $y^T$ 的对应元素。</strong></p>

@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <link rel="stylesheet" href="/css/beantech.css">
 
     <link rel="stylesheet" href="/css/donate.css">
     
@@ -38,6 +38,8 @@
     <link rel="stylesheet" href="/css/signature.css">
 
     <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/search.css">
 
     <!-- Custom Fonts -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -161,14 +163,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -178,7 +180,19 @@
                             <a href="/tags/">Tags</a>
                         </li>
                         
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
                      -->
+                        <li>
+                            <a href="#" id="search-btn">SEARCH</a>
+                        </li>
                     
                 </ul>
             </div>
@@ -229,15 +243,15 @@
                 
                     <a href="#loss function" title="loss function" rel="1">loss function</a>
                 
-                    <a href="#deep learning" title="deep learning" rel="1">deep learning</a>
+                    <a href="#deep learning" title="deep learning" rel="2">deep learning</a>
                 
-                    <a href="#algorithm" title="algorithm" rel="1">algorithm</a>
+                    <a href="#model" title="model" rel="2">model</a>
                 
                     <a href="#optimization" title="optimization" rel="3">optimization</a>
                 
                     <a href="#EM" title="EM" rel="3">EM</a>
                 
-                    <a href="#model" title="model" rel="2">model</a>
+                    <a href="#algorithm" title="algorithm" rel="1">algorithm</a>
                 
                     <a href="#note" title="note" rel="1">note</a>
                 
@@ -247,17 +261,19 @@
                 
                     <a href="#hexo" title="hexo" rel="1">hexo</a>
                 
-                    <a href="#sjtu" title="sjtu" rel="1">sjtu</a>
+                    <a href="#sjtu" title="sjtu" rel="3">sjtu</a>
                 
                     <a href="#database" title="database" rel="1">database</a>
+                
+                    <a href="#matrix" title="matrix" rel="1">matrix</a>
                 
                     <a href="#code" title="code" rel="1">code</a>
                 
                     <a href="#python" title="python" rel="1">python</a>
                 
-                    <a href="#scripts" title="scripts" rel="1">scripts</a>
+                    <a href="#scripts" title="scripts" rel="2">scripts</a>
                 
-                    <a href="#awk" title="awk" rel="1">awk</a>
+                    <a href="#awk" title="awk" rel="2">awk</a>
                 
             </div>
 
@@ -326,6 +342,25 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/article/sjtu-brain-like-intelligence/">
+                        <h2 class="post-title">
+                            [Lecture] brain like intelligence
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                notes for sjtu brain like intelligence courses
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/deeplearning/CTC/">
                         <h2 class="post-title">
                             [Loss] CTC
@@ -343,8 +378,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="algorithm">
-                    <span class="tag-text">algorithm</span>
+                <span class="fa fa-tag listing-seperator" id="model">
+                    <span class="tag-text">model</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -352,13 +387,32 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/EM/">
+                     <a href="/article/HMM/">
                         <h2 class="post-title">
-                            [Algorithm] EM algorithm
+                            [Model] HMM
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                EM algorithm derivation
+                                Hidden Markov Model derivation
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/GMM/">
+                        <h2 class="post-title">
+                            [Model] GMM
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Guassian Mixure Model derivation
                             </h3>
                         
                     </a>
@@ -399,7 +453,7 @@
                  <div class="post-preview">
                      <a href="/article/HMM/">
                         <h2 class="post-title">
-                            [Book] HTK
+                            [Model] HMM
                         </h2>
                         
                             <h3 class="post-subtitle">
@@ -463,7 +517,7 @@
                  <div class="post-preview">
                      <a href="/article/HMM/">
                         <h2 class="post-title">
-                            [Book] HTK
+                            [Model] HMM
                         </h2>
                         
                             <h3 class="post-subtitle">
@@ -497,8 +551,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="model">
-                    <span class="tag-text">model</span>
+                <span class="fa fa-tag listing-seperator" id="algorithm">
+                    <span class="tag-text">algorithm</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -506,32 +560,13 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/article/HMM/">
+                     <a href="/article/EM/">
                         <h2 class="post-title">
-                            [Book] HTK
+                            [Algorithm] EM algorithm
                         </h2>
                         
                             <h3 class="post-subtitle">
-                                Hidden Markov Model derivation
-                            </h3>
-                        
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </div>
-                <hr>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <div class="post-preview">
-                     <a href="/article/GMM/">
-                        <h2 class="post-title">
-                            [Model] GMM
-                        </h2>
-                        
-                            <h3 class="post-subtitle">
-                                Guassian Mixure Model derivation
+                                EM algorithm derivation
                             </h3>
                         
                     </a>
@@ -655,6 +690,44 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
+                     <a href="/article/sjtu-matrix/">
+                        <h2 class="post-title">
+                            [Lecture] Matrix
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                notes for sjtu matrix
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/sjtu-brain-like-intelligence/">
+                        <h2 class="post-title">
+                            [Lecture] brain like intelligence
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                notes for sjtu brain like intelligence courses
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
                      <a href="/article/sjtu-database/">
                         <h2 class="post-title">
                             [Lecture] database
@@ -688,6 +761,32 @@
                         
                             <h3 class="post-subtitle">
                                 notes for sjtu database courses
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="matrix">
+                    <span class="tag-text">matrix</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/sjtu-matrix/">
+                        <h2 class="post-title">
+                            [Lecture] Matrix
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                notes for sjtu matrix
                             </h3>
                         
                     </a>
@@ -773,6 +872,25 @@
                 </div>
                 <hr>
                 
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/sjtu-matrix/scripts/">
+                        <h2 class="post-title">
+                            [Awk] Awk Scripts
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Aggregation of awk techniques and examples
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
             </div>
             
             <div class="one-tag-list">
@@ -786,6 +904,25 @@
                   </li> -->
                  <div class="post-preview">
                      <a href="/article/scripts/">
+                        <h2 class="post-title">
+                            [Awk] Awk Scripts
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                Aggregation of awk techniques and examples
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/article/sjtu-matrix/scripts/">
                         <h2 class="post-title">
                             [Awk] Awk Scripts
                         </h2>
@@ -863,6 +1000,28 @@
             </div>
         </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            <h4 class="modal-title" id="modalLabelLarge">Search Zone</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="search-zone"><div/>
+                    <input type="text" id="cb-search-content" id="cb-search-content" placeholder="文章标题 日期 标签" />
+                </div>
+
+        </div>
+    </div>
+</div>
+
 </footer>
 
 <!-- jQuery -->
@@ -874,6 +1033,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="/js/hux-blog.min.js"></script>
 
+<!-- hexo search -->
+<script src="/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 <!-- async load function -->
 <script>

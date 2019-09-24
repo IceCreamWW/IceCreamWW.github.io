@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
+    <link rel="stylesheet" href="/css/beantech.css">
 
     <link rel="stylesheet" href="/css/donate.css">
     
@@ -38,6 +38,8 @@
     <link rel="stylesheet" href="/css/signature.css">
 
     <link rel="stylesheet" href="/css/toc.css">
+
+    <link rel="stylesheet" href="/css/search.css">
 
     <!-- Custom Fonts -->
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
@@ -167,14 +169,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -184,7 +186,19 @@
                             <a href="/tags/">Tags</a>
                         </li>
                         
+                    
+
+                        
+                    
+
+                        
+                    
+
+                        
                      -->
+                        <li>
+                            <a href="#" id="search-btn">SEARCH</a>
+                        </li>
                     
                 </ul>
             </div>
@@ -407,6 +421,7 @@
 <li>未提交的事务可能回滚，进而导致级联回滚</li>
 <li>每个无级联回滚调度也是可恢复的调度</li>
 </ul>
+<p><img src="https://www.gatevidyalay.com/wp-content/uploads/2018/06/Cascading-Schedule-Cascading-Rollback-Cascading-Abort-1.png" alt="cascading rollback"></p>
 <hr>
 <h2 id="弱一致性级别"><a href="#弱一致性级别" class="headerlink" title="弱一致性级别"></a>弱一致性级别</h2><ul>
 <li>由程序员确保DB一致性</li>
@@ -418,6 +433,10 @@
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/sjtu-brain-like-intelligence/" data-toggle="tooltip" data-placement="top" title="[Lecture] brain like intelligence">&larr; Previous Post</a>
+                        </li>
                     
                     
                         <li class="next">
@@ -699,6 +718,28 @@
             </div>
         </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="search-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            <h4 class="modal-title" id="modalLabelLarge">Search Zone</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="search-zone"><div/>
+                    <input type="text" id="cb-search-content" id="cb-search-content" placeholder="文章标题 日期 标签" />
+                </div>
+
+        </div>
+    </div>
+</div>
+
 </footer>
 
 <!-- jQuery -->
@@ -710,6 +751,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="/js/hux-blog.min.js"></script>
 
+<!-- hexo search -->
+<script src="/js/bootstrap3-typeahead.min.js"></script>
+<script src="/search/js/cb-search.js"></script>
 
 <!-- async load function -->
 <script>
